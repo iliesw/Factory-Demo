@@ -204,7 +204,6 @@ export default function () {
       <div className="flex w-full relative justify-between">
         <h1>SEBN TN</h1>
         <h1>{Selected}</h1>
-        <h1>Controlling department</h1>
       </div>
       {Selected == "" ? (
         <div className="flex gap-4 justify-between pt-64 items-center">
