@@ -211,9 +211,9 @@ export default function () {
             onClick={() => {
               setSelected("Fixed Assets");
             }}
-            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-800/50"
+            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50"
           >
-            {/* <img src={"https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} className="absolute top-0 left-0 w-full h-full"></img> */}
+            <img src={"/images/pic1.jpg"} className="absolute top-0 left-0 w-full h-full" style={{mask:"linear-gradient(to top,transparent 23%,black 23%)"}}></img>
             <div className="flex justify-between items-end relative">
               <div>
                 <h1>Fixed Assets</h1>
@@ -227,9 +227,9 @@ export default function () {
             onClick={() => {
               setSelected("JIG holders");
             }}
-            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-800/50"
+            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50"
           >
-            {/* <img src={"https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} className="absolute top-0 left-0 w-full h-full"></img> */}
+            <img src={"/images/pic2.jpg"} className="absolute top-0 left-0 w-full h-full" style={{mask:"linear-gradient(to top,transparent 23%,black 23%)"}}></img>
             <div className="flex justify-between items-end relative">
               <div>
                 <h1>JIG holders</h1>
@@ -243,9 +243,9 @@ export default function () {
             onClick={() => {
               setSelected("Packaging");
             }}
-            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-800/50"
+            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50"
           >
-            {/* <img src={"https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} className="absolute top-0 left-0 w-full h-full"></img> */}
+            <img src={"/images/pic3.jpg"} className="absolute top-0 left-0 w-full h-full" style={{mask:"linear-gradient(to top,transparent 23%,black 23%)"}}></img>
             <div className="flex justify-between items-end relative">
               <div>
                 <h1>Packaging</h1>
