@@ -4,8 +4,21 @@ import Input from "@/components/Input";
 import { ArrowLeft, CircleArrowOutUpRightIcon, Loader2, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Fragment } from "react";
 
-const Data = [
+// Define the Product type
+
+type Product = {
+  Name: string;
+  Referance: number;
+  Description: string;
+  Image: string;
+  Quantity: number;
+  Type: string;
+  Year: number;
+};
+
+const Data: Product[] = [
   // Fixed Assets
   {
     Name: "Industrial Machinery",
@@ -15,7 +28,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
     Quantity: 100,
-    Type: "Fixed Assets"
+    Type: "Fixed Assets",
+    Year: 2018
   },
   {
     Name: "Automated Assembly Line",
@@ -25,7 +39,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/5578724259e7ead59bd6cc4c8175540a_1754158502474.png",
     Quantity: 15,
-    Type: "Fixed Assets"
+    Type: "Fixed Assets",
+    Year: 2020
   },
   {
     Name: "Quality Control Equipment",
@@ -35,7 +50,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/76476984dbb2e56a16a0b17b45251552_1754158502465.png",
     Quantity: 0,
-    Type: "Fixed Assets"
+    Type: "Fixed Assets",
+    Year: 2017
   },
   {
     Name: "Factory Vehicles",
@@ -45,7 +61,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/2fdb145fa4505fe24fdabf136d94f210_1754158502465.png",
     Quantity: 8,
-    Type: "Fixed Assets"
+    Type: "Fixed Assets",
+    Year: 2019
   },
   
   // JIG Holders
@@ -57,7 +74,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
     Quantity: 100,
-    Type: "JIG holders"
+    Type: "JIG holders",
+    Year: 2021
   },
   {
     Name: "Precision JIG Holder",
@@ -67,7 +85,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
     Quantity: 75,
-    Type: "JIG holders"
+    Type: "JIG holders",
+    Year: 2022
   },
   {
     Name: "Heavy-Duty JIG Holder",
@@ -77,7 +96,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/5578724259e7ead59bd6cc4c8175540a_1754158502474.png",
     Quantity: 0,
-    Type: "JIG holders"
+    Type: "JIG holders",
+    Year: 2018
   },
   {
     Name: "Adjustable JIG System",
@@ -87,7 +107,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/76476984dbb2e56a16a0b17b45251552_1754158502465.png",
     Quantity: 50,
-    Type: "JIG holders"
+    Type: "JIG holders",
+    Year: 2020
   },
   {
     Name: "Automated JIG Holder",
@@ -97,7 +118,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/2fdb145fa4505fe24fdabf136d94f210_1754158502465.png",
     Quantity: 25,
-    Type: "JIG holders"
+    Type: "JIG holders",
+    Year: 2019
   },
   
   // Packaging
@@ -109,7 +131,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
     Quantity: 1000,
-    Type: "Packaging"
+    Type: "Packaging",
+    Year: 2021
   },
   {
     Name: "Protective Foam Inserts",
@@ -119,7 +142,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
     Quantity: 500,
-    Type: "Packaging"
+    Type: "Packaging",
+    Year: 2022
   },
   {
     Name: "Plastic Wrapping Material",
@@ -129,7 +153,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/5578724259e7ead59bd6cc4c8175540a_1754158502474.png",
     Quantity: 0,
-    Type: "Packaging"
+    Type: "Packaging",
+    Year: 2017
   },
   {
     Name: "Shipping Labels",
@@ -139,7 +164,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/76476984dbb2e56a16a0b17b45251552_1754158502465.png",
     Quantity: 2000,
-    Type: "Packaging"
+    Type: "Packaging",
+    Year: 2018
   },
   {
     Name: "Specialty Packaging",
@@ -149,7 +175,8 @@ const Data = [
     Image:
       "https://factory.ilies.dev/api/files/download/2fdb145fa4505fe24fdabf136d94f210_1754158502465.png",
     Quantity: 150,
-    Type: "Packaging"
+    Type: "Packaging",
+    Year: 2019
   },
 ];
 
@@ -160,6 +187,7 @@ export default function () {
   const [sortBy, setSortBy] = useState("Name");
   const [sortOrder, setSortOrder] = useState("asc");
   const [stockFilter, setStockFilter] = useState("all"); // "all", "inStock", "outOfStock"
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const router = useRouter();
   useEffect(() => {
     if (localStorage.getItem("auth-aura") != "Authed") {
@@ -350,7 +378,7 @@ export default function () {
                       </div>
                     </div>
                   </div>
-                  
+                  <div className="grid grid-cols-2 gap-4">
                   {filteredData
                     .sort((a, b) => {
                       // Handle different types of sorting
@@ -375,7 +403,8 @@ export default function () {
                         key={item.Referance}
                         className={`flex gap-4 p-4 border rounded-md ${
                           item.Quantity > 0 ? "bg-green-500/10" : "bg-red-500/10"
-                        }`}
+                        } cursor-pointer`}
+                        onClick={() => setSelectedProduct(item)}
                       >
                         <div className="relative">
                           <img src={item.Image} className="aspect-square h-36 rounded-md object-cover" alt="" />
@@ -419,9 +448,56 @@ export default function () {
                       </div>
                     );
                   })}
+                  </div>
                 </>
               );
             })()}
+          </div>
+        </div>
+      )}
+      {/* Modal for product details */}
+      {selectedProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white dark:bg-neutral-900 rounded-lg shadow-lg p-8  w-[70vw] relative animate-fade-in">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 text-2xl"
+              onClick={() => setSelectedProduct(null)}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <div className="flex flex-col items-center mb-6">
+              <img src={selectedProduct.Image} alt={selectedProduct.Name} className="w-40 h-40 object-cover rounded-md mb-2 border" />
+              <h2 className="text-2xl font-bold mb-2 text-center">{selectedProduct.Name}</h2>
+            </div>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="border rounded-lg p-4 flex flex-col items-center">
+                <span className="font-semibold mb-1">Reference</span>
+                <span>{selectedProduct.Referance}</span>
+              </div>
+              <div className="border rounded-lg p-4 flex flex-col items-center">
+                <span className="font-semibold mb-1">Type</span>
+                <span>{selectedProduct.Type}</span>
+              </div>
+              <div className="border rounded-lg p-4 flex flex-col items-center">
+                <span className="font-semibold mb-1">Quantity</span>
+                <span>{selectedProduct.Quantity}</span>
+              </div>
+              <div className="border rounded-lg p-4 flex flex-col items-center">
+                <span className="font-semibold mb-1">Year</span>
+                <span>{selectedProduct.Year}</span>
+              </div>
+              <div className="border rounded-lg p-4 flex flex-col items-center col-span-4">
+                <span className="font-semibold mb-1">Description</span>
+                <span className="text-center">{selectedProduct.Description}</span>
+              </div>
+              <div className="border rounded-lg p-4 flex flex-col items-center col-span-4">
+                <span className="font-semibold mb-1">Status</span>
+                <span className={selectedProduct.Quantity > 0 ? "text-green-600" : "text-red-600"}>
+                  {selectedProduct.Quantity > 0 ? "In Stock" : "Out of Stock"}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       )}

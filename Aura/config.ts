@@ -1,3 +1,3 @@
 export default {
-  URL: "https://aura.ilies.dev/api",
+  URL: "https://factory.ilies.dev/api",
 };

@@ -23,18 +23,20 @@ export default function Home() {
   return (
     <div className="w-full relative h-screen">
       <div className="absolute w-full h-full">
-        <DarkVeil
+        {/* <DarkVeil
           speed={2}
-          hueShift={304}
+          hueShift={320}
           noiseIntensity={0.01}
           scanlineIntensity={0}
           scanlineFrequency={0}
           warpAmount={0}
-        />
+        /> */}
+        <img src="/images/bg.png" className="w-full h-full" alt="" />
       </div>
-      <div className="relative flex items-center flex-col justify-start h-screen">
+      <div className="relative flex items-center flex-col justify-between h-screen">
+        
         <SplitText
-          text="Welcome to Fixed Assets over capacity platform"
+          text="Welcome to Fixed Assets Platform"
           className="text-6xl font-semibold text-center py-44"
           delay={30}
           duration={0.1}
@@ -47,7 +49,15 @@ export default function Home() {
           textAlign="center"
           onLetterAnimationComplete={() => {}}
         />
-        <div className="w-xl flex p-16 gap-4 flex-col border bg-neutral-900 backdrop-blur-md rounded-2xl border-neutral-700">
+        
+        {/* Row of images below the login card */}
+        <div className="flex flex-row gap-8 justify-center items-center -mt-40">
+          <img
+            src="/images/image.png"
+            alt="SWS WAY"
+            className=" h-full w-[600px]  rounded-lg shadow-lg"
+          />
+          <div className="w-xl flex p-16 gap-4 flex-col border bg-neutral-900 backdrop-blur-md rounded-2xl border-neutral-700">
           <div className="mb-4">
             <h1>SEBN TN - Controlling department</h1>
             <p className="text-sm">Sign in to your account</p>
@@ -67,6 +77,16 @@ export default function Home() {
           >
             Login
           </button>
+        </div>
+          <img
+            src="/images/Screenshot 2025-08-06 103215.png"
+            alt="What Keeps Us Connected"
+            className=" h-full w-[600px] rounded-lg shadow-lg"
+          />
+        </div>
+        <div className="w-full px-16 flex bg-white py-2 justify-between">
+          <img src="/images/logo.png" className="w-30" alt="" />
+          <h1 className="text-[#452c8d]">SUMITOMO ELECTRIC GROUP</h1>
         </div>
       </div>
     </div>
