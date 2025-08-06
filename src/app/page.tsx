@@ -34,10 +34,13 @@ export default function Home() {
         <img src="/images/bg.png" className="w-full h-full" alt="" />
       </div>
       <div className="relative flex items-center flex-col justify-between h-screen">
-        
+        <div className="w-full px-16 flex bg-white py-2 justify-between">
+          <img src="/images/logo.png" className="w-30" alt="" />
+          <h1 className="text-[#452c8d]">SUMITOMO ELECTRIC GROUP</h1>
+        </div>
         <SplitText
           text="Welcome to Fixed Assets Platform"
-          className="text-6xl font-semibold text-center py-44"
+          className="text-6xl font-semibold text-center py-22"
           delay={30}
           duration={0.1}
           ease="power3.out"
@@ -48,8 +51,9 @@ export default function Home() {
           rootMargin="-100px"
           textAlign="center"
           onLetterAnimationComplete={() => {}}
+          
         />
-        
+
         {/* Row of images below the login card */}
         <div className="flex flex-row gap-8 justify-center items-center -mt-40">
           <img
@@ -58,26 +62,26 @@ export default function Home() {
             className=" h-full w-[600px]  rounded-lg shadow-lg"
           />
           <div className="w-xl flex p-16 gap-4 flex-col border bg-neutral-900 backdrop-blur-md rounded-2xl border-neutral-700">
-          <div className="mb-4">
-            <h1>SEBN TN - Controlling department</h1>
-            <p className="text-sm">Sign in to your account</p>
+            <div className="mb-4">
+              <h1>SEBN TN - Controlling department</h1>
+              <p className="text-sm">Sign in to your account</p>
+            </div>
+            {error.length != 0 && <p className="text-red-500">{error}</p>}
+            <Input type="email" placeholder="Your Email" onChange={setEmail} />
+            <Input
+              type="password"
+              placeholder="Your Password"
+              onChange={setPassword}
+              passwordStrength={false}
+            />
+            <p className="text-xs text-white/40">Having trouble logging in?</p>
+            <button
+              onClick={Login}
+              className="cursor-pointer bg-white text-black py-2 rounded-md"
+            >
+              Login
+            </button>
           </div>
-          {error.length != 0 && <p className="text-red-500">{error}</p>}
-          <Input type="email" placeholder="Your Email" onChange={setEmail} />
-          <Input
-            type="password"
-            placeholder="Your Password"
-            onChange={setPassword}
-            passwordStrength={false}
-          />
-          <p className="text-xs text-white/40">Having trouble logging in?</p>
-          <button
-            onClick={Login}
-            className="cursor-pointer bg-white text-black py-2 rounded-md"
-          >
-            Login
-          </button>
-        </div>
           <img
             src="/images/Screenshot 2025-08-06 103215.png"
             alt="What Keeps Us Connected"
