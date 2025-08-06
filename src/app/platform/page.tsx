@@ -199,14 +199,14 @@ export default function () {
     }
   }, []);
   return Loaded ? (
-    <div className="h-full w-full p-16 relative overflow-auto">
+    <div className="h-full w-full relative overflow-auto">
       <img src="/images/bg.png" className="absolute left-0 top-0 w-full h-full" alt="" />
-      <div className="flex w-full relative justify-between">
-        <h1>SEBN TN</h1>
-        <h1>{Selected}</h1>
-      </div>
+      <div className="w-full px-16 flex relative bg-white py-2 justify-between">
+          <img src="/images/logo.png" className="w-30" alt="" />
+          <h1 className="text-[#452c8d]">SUMITOMO ELECTRIC GROUP</h1>
+        </div>
       {Selected == "" ? (
-        <div className="flex gap-4 justify-between pt-64 items-center">
+        <div className="flex gap-4 px-16 justify-between pt-64 items-center">
           <div
             onClick={() => {
               setSelected("Fixed Assets");
@@ -257,7 +257,7 @@ export default function () {
           </div>
         </div>
       ) : (
-        <div className="flex relative flex-col mt-20">
+        <div className="flex relative px-16 flex-col mt-20">
             <button className="flex w-fit items-center mb-4 gap-2 cursor-pointer" onClick={() => {
               setSelected("");
             }}><ArrowLeft /> Back</button>
