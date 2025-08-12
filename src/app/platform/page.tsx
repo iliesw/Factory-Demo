@@ -31,7 +31,7 @@ const Data: Product[] = [
     Description:
       "Heavy-duty industrial machinery used for manufacturing processes with long operational lifespan.",
     Image:
-      "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
+      "/images/pic1.jpg",
     Quantity: 100,
     Type: "Fixed Assets",
     Year: 2018,
@@ -42,7 +42,7 @@ const Data: Product[] = [
     Description:
       "Fully automated assembly line system with robotic components and conveyor systems.",
     Image:
-      "https://factory.ilies.dev/api/files/download/5578724259e7ead59bd6cc4c8175540a_1754158502474.png",
+      "/images/pic2.jpg",
     Quantity: 15,
     Type: "Fixed Assets",
     Year: 2020,
@@ -53,7 +53,7 @@ const Data: Product[] = [
     Description:
       "Precision testing and quality control equipment for ensuring product standards.",
     Image:
-      "https://factory.ilies.dev/api/files/download/76476984dbb2e56a16a0b17b45251552_1754158502465.png",
+      "/images/pic3.jpg",
     Quantity: 0,
     Type: "Fixed Assets",
     Year: 2017,
@@ -64,7 +64,7 @@ const Data: Product[] = [
     Description:
       "Industrial vehicles used for material transport within the factory premises.",
     Image:
-      "https://factory.ilies.dev/api/files/download/2fdb145fa4505fe24fdabf136d94f210_1754158502465.png",
+      "/images/pic1.jpg",
     Quantity: 8,
     Type: "Fixed Assets",
     Year: 2019,
@@ -77,7 +77,7 @@ const Data: Product[] = [
     Description:
       "Standard JIG holder for securing components during assembly and testing processes.",
     Image:
-      "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
+      "/images/pic2.jpg",
     Quantity: 100,
     Type: "JIG holders",
     Year: 2021,
@@ -88,7 +88,7 @@ const Data: Product[] = [
     Description:
       "High-precision JIG holder for delicate components requiring exact positioning.",
     Image:
-      "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
+      "/images/pic3.jpg",
     Quantity: 75,
     Type: "JIG holders",
     Year: 2022,
@@ -99,7 +99,7 @@ const Data: Product[] = [
     Description:
       "Reinforced JIG holder designed for heavy components and high-stress applications.",
     Image:
-      "https://factory.ilies.dev/api/files/download/5578724259e7ead59bd6cc4c8175540a_1754158502474.png",
+      "/images/pic1.jpg",
     Quantity: 0,
     Type: "JIG holders",
     Year: 2018,
@@ -110,7 +110,7 @@ const Data: Product[] = [
     Description:
       "Versatile JIG holding system with adjustable components for various product sizes.",
     Image:
-      "https://factory.ilies.dev/api/files/download/76476984dbb2e56a16a0b17b45251552_1754158502465.png",
+      "/images/pic2.jpg",
     Quantity: 50,
     Type: "JIG holders",
     Year: 2020,
@@ -121,7 +121,7 @@ const Data: Product[] = [
     Description:
       "Automated JIG holding system with programmable positioning for high-volume production.",
     Image:
-      "https://factory.ilies.dev/api/files/download/2fdb145fa4505fe24fdabf136d94f210_1754158502465.png",
+      "/images/pic3.jpg",
     Quantity: 25,
     Type: "JIG holders",
     Year: 2019,
@@ -134,7 +134,7 @@ const Data: Product[] = [
     Description:
       "Standard cardboard packaging boxes for finished products in various sizes.",
     Image:
-      "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
+      "/images/pic1.jpg",
     Quantity: 1000,
     Type: "Packaging",
     Year: 2021,
@@ -145,7 +145,7 @@ const Data: Product[] = [
     Description:
       "Custom-cut foam inserts for protecting delicate products during shipping.",
     Image:
-      "https://factory.ilies.dev/api/files/download/49b14f6ae4a612907da6dac9967a7eba_1754158502057.png",
+      "/images/pic2.jpg",
     Quantity: 500,
     Type: "Packaging",
     Year: 2022,
@@ -156,7 +156,7 @@ const Data: Product[] = [
     Description:
       "Industrial-grade plastic wrapping material for securing pallets and bulk shipments.",
     Image:
-      "https://factory.ilies.dev/api/files/download/5578724259e7ead59bd6cc4c8175540a_1754158502474.png",
+      "/images/pic3.jpg",
     Quantity: 0,
     Type: "Packaging",
     Year: 2017,
@@ -167,7 +167,7 @@ const Data: Product[] = [
     Description:
       "Pre-printed shipping labels with company branding and information fields.",
     Image:
-      "https://factory.ilies.dev/api/files/download/76476984dbb2e56a16a0b17b45251552_1754158502465.png",
+      "/images/pic1.jpg",
     Quantity: 2000,
     Type: "Packaging",
     Year: 2018,
@@ -178,7 +178,7 @@ const Data: Product[] = [
     Description:
       "Premium packaging solutions for high-value products with enhanced protection.",
     Image:
-      "https://factory.ilies.dev/api/files/download/2fdb145fa4505fe24fdabf136d94f210_1754158502465.png",
+      "/images/pic2.jpg",
     Quantity: 150,
     Type: "Packaging",
     Year: 2019,
