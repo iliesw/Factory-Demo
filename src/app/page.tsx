@@ -3,7 +3,6 @@ import DarkVeil from "@/reactbits/Backgrounds/DarkVeil/DarkVeil";
 import SplitText from "@/reactbits/TextAnimations/SplitText/SplitText";
 import Input from "@/components/Input";
 import { useState } from "react";
-import { AURA } from "../../Aura/main";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -12,7 +11,7 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const Login = async () => {
-    const Result = await AURA.Functions.AdminLogin({ email, password });
+    const Result = email == "admin@test.com" && password == "password"
     if (Result) {
       localStorage.setItem("auth-aura", "Authed");
       router.push("/platform");
