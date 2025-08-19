@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { Fragment } from "react";
 
 // Define the Product type
-
 type Product = {
   Name: string;
   Referance: number;
@@ -30,8 +29,7 @@ const Data: Product[] = [
     Referance: 1,
     Description:
       "Heavy-duty industrial machinery used for manufacturing processes with long operational lifespan.",
-    Image:
-      "/images/pic1.jpg",
+    Image: "/images/pic1.jpg",
     Quantity: 100,
     Type: "Fixed Assets",
     Year: 2018,
@@ -41,8 +39,7 @@ const Data: Product[] = [
     Referance: 2,
     Description:
       "Fully automated assembly line system with robotic components and conveyor systems.",
-    Image:
-      "/images/pic2.jpg",
+    Image: "/images/pic2.jpg",
     Quantity: 15,
     Type: "Fixed Assets",
     Year: 2020,
@@ -52,8 +49,7 @@ const Data: Product[] = [
     Referance: 3,
     Description:
       "Precision testing and quality control equipment for ensuring product standards.",
-    Image:
-      "/images/pic3.jpg",
+    Image: "/images/pic3.jpg",
     Quantity: 0,
     Type: "Fixed Assets",
     Year: 2017,
@@ -63,8 +59,7 @@ const Data: Product[] = [
     Referance: 4,
     Description:
       "Industrial vehicles used for material transport within the factory premises.",
-    Image:
-      "/images/pic1.jpg",
+    Image: "/images/pic1.jpg",
     Quantity: 8,
     Type: "Fixed Assets",
     Year: 2019,
@@ -76,8 +71,7 @@ const Data: Product[] = [
     Referance: 5,
     Description:
       "Standard JIG holder for securing components during assembly and testing processes.",
-    Image:
-      "/images/pic2.jpg",
+    Image: "/images/pic2.jpg",
     Quantity: 100,
     Type: "JIG holders",
     Year: 2021,
@@ -87,8 +81,7 @@ const Data: Product[] = [
     Referance: 6,
     Description:
       "High-precision JIG holder for delicate components requiring exact positioning.",
-    Image:
-      "/images/pic3.jpg",
+    Image: "/images/pic3.jpg",
     Quantity: 75,
     Type: "JIG holders",
     Year: 2022,
@@ -98,8 +91,7 @@ const Data: Product[] = [
     Referance: 7,
     Description:
       "Reinforced JIG holder designed for heavy components and high-stress applications.",
-    Image:
-      "/images/pic1.jpg",
+    Image: "/images/pic1.jpg",
     Quantity: 0,
     Type: "JIG holders",
     Year: 2018,
@@ -109,8 +101,7 @@ const Data: Product[] = [
     Referance: 8,
     Description:
       "Versatile JIG holding system with adjustable components for various product sizes.",
-    Image:
-      "/images/pic2.jpg",
+    Image: "/images/pic2.jpg",
     Quantity: 50,
     Type: "JIG holders",
     Year: 2020,
@@ -120,8 +111,7 @@ const Data: Product[] = [
     Referance: 9,
     Description:
       "Automated JIG holding system with programmable positioning for high-volume production.",
-    Image:
-      "/images/pic3.jpg",
+    Image: "/images/pic3.jpg",
     Quantity: 25,
     Type: "JIG holders",
     Year: 2019,
@@ -133,8 +123,7 @@ const Data: Product[] = [
     Referance: 10,
     Description:
       "Standard cardboard packaging boxes for finished products in various sizes.",
-    Image:
-      "/images/pic1.jpg",
+    Image: "/images/pic1.jpg",
     Quantity: 1000,
     Type: "Packaging",
     Year: 2021,
@@ -144,8 +133,7 @@ const Data: Product[] = [
     Referance: 11,
     Description:
       "Custom-cut foam inserts for protecting delicate products during shipping.",
-    Image:
-      "/images/pic2.jpg",
+    Image: "/images/pic2.jpg",
     Quantity: 500,
     Type: "Packaging",
     Year: 2022,
@@ -155,8 +143,7 @@ const Data: Product[] = [
     Referance: 12,
     Description:
       "Industrial-grade plastic wrapping material for securing pallets and bulk shipments.",
-    Image:
-      "/images/pic3.jpg",
+    Image: "/images/pic3.jpg",
     Quantity: 0,
     Type: "Packaging",
     Year: 2017,
@@ -166,8 +153,7 @@ const Data: Product[] = [
     Referance: 13,
     Description:
       "Pre-printed shipping labels with company branding and information fields.",
-    Image:
-      "/images/pic1.jpg",
+    Image: "/images/pic1.jpg",
     Quantity: 2000,
     Type: "Packaging",
     Year: 2018,
@@ -177,8 +163,7 @@ const Data: Product[] = [
     Referance: 14,
     Description:
       "Premium packaging solutions for high-value products with enhanced protection.",
-    Image:
-      "/images/pic2.jpg",
+    Image: "/images/pic2.jpg",
     Quantity: 150,
     Type: "Packaging",
     Year: 2019,
@@ -188,12 +173,46 @@ const Data: Product[] = [
 export default function () {
   const [Loaded, setLoaded] = useState(false);
   const [Selected, setSelected] = useState("");
+  const [selectedSubgroup, setSelectedSubgroup] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("Name");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [stockFilter, setStockFilter] = useState("all"); // "all", "inStock", "outOfStock"
+  const [stockFilter, setStockFilter] = useState("all");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const router = useRouter();
+
+  // Group products by type and year
+  const groupedProducts = Data.reduce((acc, product) => {
+    if (!acc[product.Type]) {
+      acc[product.Type] = {};
+    }
+    if (!acc[product.Type][product.Year]) {
+      acc[product.Type][product.Year] = [];
+    }
+    acc[product.Type][product.Year].push(product);
+    return acc;
+  }, {} as Record<string, Record<number, Product[]>>);
+
+  // Get available years for the selected category
+  const getAvailableYears = (type: string) => {
+    if (!groupedProducts[type]) return [];
+    return Object.keys(groupedProducts[type])
+      .map(Number)
+      .sort((a, b) => b - a); // Sort years in descending order
+  };
+
+  // Get total items count for a year
+  const getYearItemCount = (type: string, year: number) => {
+    if (!groupedProducts[type] || !groupedProducts[type][year]) return 0;
+    return groupedProducts[type][year].length;
+  };
+
+  // Get total stock for a year
+  const getYearStockCount = (type: string, year: number) => {
+    if (!groupedProducts[type] || !groupedProducts[type][year]) return 0;
+    return groupedProducts[type][year].reduce((sum, item) => sum + item.Quantity, 0);
+  };
+
   useEffect(() => {
     if (localStorage.getItem("auth-aura") != "Authed") {
       setTimeout(() => {
@@ -203,6 +222,39 @@ export default function () {
       setLoaded(true);
     }
   }, []);
+
+  // Navigation breadcrumb component
+  const Breadcrumb = () => (
+    <div className="flex items-center gap-2 mb-4">
+      <button
+        className="text-blue-500 hover:text-blue-700 cursor-pointer"
+        onClick={() => {
+          setSelected("");
+          setSelectedSubgroup("");
+        }}
+      >
+        Categories
+      </button>
+      {Selected && (
+        <>
+          <span className="text-gray-400">/</span>
+          <button
+            className="text-blue-500 hover:text-blue-700 cursor-pointer"
+            onClick={() => setSelectedSubgroup("")}
+          >
+            {Selected}
+          </button>
+        </>
+      )}
+      {selectedSubgroup && (
+        <>
+          <span className="text-gray-400">/</span>
+          <span className="text-gray-600">{selectedSubgroup}</span>
+        </>
+      )}
+    </div>
+  );
+
   return Loaded ? (
     <div className="h-full w-full relative overflow-auto">
       <img
@@ -216,18 +268,25 @@ export default function () {
       </div>
       <div className="relative w-full justify-between flex px-16 mt-4">
         <div></div>
-        <button onClick={()=>{
-          localStorage.clear();
-          router.push("/")
-        }} className=" bg-white px-2 py-1 rounded text-black">Logout</button>
+        <button
+          onClick={() => {
+            localStorage.clear();
+            router.push("/");
+          }}
+          className="bg-white px-2 py-1 rounded text-black"
+        >
+          Logout
+        </button>
       </div>
+
+      {/* Main Categories View */}
       {Selected == "" ? (
         <div className="flex gap-4 px-16 justify-between pt-64 items-center">
           <div
             onClick={() => {
               setSelected("Fixed Assets");
             }}
-            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50"
+            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50 hover:bg-neutral-900/60 transition-colors"
           >
             <img
               src={"/images/pic1.jpg"}
@@ -238,9 +297,12 @@ export default function () {
             ></img>
             <div className="flex justify-between items-end relative">
               <div>
-                <h1>Fixed Assets</h1>
+                <h1 className="text-white text-xl font-bold">Fixed Assets</h1>
+                <p className="text-white/80 text-sm">
+                  {Data.filter(item => item.Type === "Fixed Assets").length} items
+                </p>
               </div>
-              <button className="cursor-pointer">
+              <button className="cursor-pointer text-white">
                 <CircleArrowOutUpRightIcon />
               </button>
             </div>
@@ -249,7 +311,7 @@ export default function () {
             onClick={() => {
               setSelected("JIG holders");
             }}
-            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50"
+            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50 hover:bg-neutral-900/60 transition-colors"
           >
             <img
               src={"/images/pic2.jpg"}
@@ -260,9 +322,12 @@ export default function () {
             ></img>
             <div className="flex justify-between items-end relative">
               <div>
-                <h1>JIG holders</h1>
+                <h1 className="text-white text-xl font-bold">JIG holders</h1>
+                <p className="text-white/80 text-sm">
+                  {Data.filter(item => item.Type === "JIG holders").length} items
+                </p>
               </div>
-              <button className="cursor-pointer">
+              <button className="cursor-pointer text-white">
                 <CircleArrowOutUpRightIcon />
               </button>
             </div>
@@ -271,7 +336,7 @@ export default function () {
             onClick={() => {
               setSelected("Packaging");
             }}
-            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50"
+            className="p-8 w-full border cursor-pointer h-96 relative flex flex-col overflow-hidden justify-end rounded-2xl bg-neutral-900/50 hover:bg-neutral-900/60 transition-colors"
           >
             <img
               src={"/images/pic3.jpg"}
@@ -282,33 +347,116 @@ export default function () {
             ></img>
             <div className="flex justify-between items-end relative">
               <div>
-                <h1>Packaging</h1>
+                <h1 className="text-white text-xl font-bold">Packaging</h1>
+                <p className="text-white/80 text-sm">
+                  {Data.filter(item => item.Type === "Packaging").length} items
+                </p>
               </div>
-              <button className="cursor-pointer">
+              <button className="cursor-pointer text-white">
                 <CircleArrowOutUpRightIcon />
               </button>
             </div>
           </div>
         </div>
-      ) : (
+      ) : selectedSubgroup === "" ? (
+        /* Subgroup View - Years within selected category */
         <div className="flex relative px-16 flex-col mt-20">
-          <button
-            className="flex w-fit items-center mb-4 gap-2 cursor-pointer"
-            onClick={() => {
-              setSelected("");
-            }}
-          >
-            <ArrowLeft /> Back
-          </button>
-          <div className="relative w-full">
+          <Breadcrumb />
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold mb-2">{Selected}</h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Select a year to view items from that period
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {getAvailableYears(Selected).map((year) => {
+              const itemCount = getYearItemCount(Selected, year);
+              const stockCount = getYearStockCount(Selected, year);
+              const sampleProduct = groupedProducts[Selected][year][0];
+              
+              return (
+                <div
+                  key={year}
+                  onClick={() => setSelectedSubgroup(year.toString())}
+                  className="group cursor-pointer bg-white dark:bg-neutral-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={sampleProduct.Image}
+                      alt={`${Selected} ${year}`}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h2 className="text-2xl font-bold">{year}</h2>
+                      <p className="text-white/90 text-sm">
+                        {itemCount} item{itemCount !== 1 ? "s" : ""}
+                      </p>
+                    </div>
+                    <div className="absolute top-4 right-4">
+                      <CircleArrowOutUpRightIcon className="text-white/80 group-hover:text-white transition-colors" size={20} />
+                    </div>
+                  </div>
+                  
+                  <div className="p-4">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                        Total Stock
+                      </span>
+                      <span className={`text-lg font-bold ${
+                        stockCount > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                      }`}>
+                        {stockCount} units
+                      </span>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600 dark:text-gray-400">Items available:</span>
+                        <span className="font-medium">
+                          {groupedProducts[Selected][year].filter(item => item.Quantity > 0).length} / {itemCount}
+                        </span>
+                      </div>
+                      
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div
+                          className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                          style={{
+                            width: `${(groupedProducts[Selected][year].filter(item => item.Quantity > 0).length / itemCount) * 100}%`
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        /* Product List View - Items within selected year */
+        <div className="flex relative px-16 flex-col mt-20">
+          <Breadcrumb />
+          
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold mb-2">
+              {Selected} - {selectedSubgroup}
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Items from {selectedSubgroup}
+            </p>
+          </div>
+
+          <div className="relative w-full mb-4">
             <Input
-              placeholder="Search"
+              placeholder="Search items..."
               icon={<Search size={18} />}
               type="username"
               value={searchQuery}
               onChange={setSearchQuery}
               passwordStrength={false}
-            ></Input>
+            />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
@@ -331,21 +479,19 @@ export default function () {
               </button>
             )}
           </div>
-          <div className="flex flex-col gap-2 mt-4">
+
+          <div className="flex flex-col gap-2">
             {(() => {
               const filteredData = Data.filter((item) => {
-                // First filter by selected category
+                // Filter by selected category and year
                 const typeMatch = item.Type === Selected;
+                const yearMatch = item.Year.toString() === selectedSubgroup;
 
-                // Then filter by search query if one exists
+                // Filter by search query if one exists
                 const queryMatch = !searchQuery
                   ? true
-                  : item.Name.toLowerCase().includes(
-                      searchQuery.toLowerCase()
-                    ) ||
-                    item.Description.toLowerCase().includes(
-                      searchQuery.toLowerCase()
-                    ) ||
+                  : item.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.Description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     item.Referance.toString().includes(searchQuery);
 
                 // Filter by stock status
@@ -358,10 +504,9 @@ export default function () {
                     ? item.Quantity === 0
                     : true;
 
-                return typeMatch && queryMatch && stockMatch;
+                return typeMatch && yearMatch && queryMatch && stockMatch;
               });
 
-              // Display count of results
               return (
                 <>
                   <div className="flex flex-col gap-3 mb-4">
@@ -426,30 +571,30 @@ export default function () {
                       <div className="flex gap-1">
                         <button
                           onClick={() => setStockFilter("all")}
-                          className={`px-3 py-1 text-sm rounded-md ${
+                          className={`px-3 py-1 text-sm rounded-md transition-colors ${
                             stockFilter === "all"
                               ? "bg-blue-500 text-white"
-                              : "bg-neutral-200 dark:bg-neutral-800"
+                              : "bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700"
                           }`}
                         >
                           All
                         </button>
                         <button
                           onClick={() => setStockFilter("inStock")}
-                          className={`px-3 py-1 text-sm rounded-md ${
+                          className={`px-3 py-1 text-sm rounded-md transition-colors ${
                             stockFilter === "inStock"
                               ? "bg-green-500 text-white"
-                              : "bg-neutral-200 dark:bg-neutral-800"
+                              : "bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700"
                           }`}
                         >
                           In Stock
                         </button>
                         <button
                           onClick={() => setStockFilter("outOfStock")}
-                          className={`px-3 py-1 text-sm rounded-md ${
+                          className={`px-3 py-1 text-sm rounded-md transition-colors ${
                             stockFilter === "outOfStock"
                               ? "bg-red-500 text-white"
-                              : "bg-neutral-200 dark:bg-neutral-800"
+                              : "bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700"
                           }`}
                         >
                           Out of Stock
@@ -457,10 +602,10 @@ export default function () {
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {filteredData
                       .sort((a, b) => {
-                        // Handle different types of sorting
                         if (sortBy === "Name") {
                           return sortOrder === "asc"
                             ? a.Name.localeCompare(b.Name)
@@ -480,18 +625,18 @@ export default function () {
                         return (
                           <div
                             key={item.Referance}
-                            className={`flex gap-4 p-4 border rounded-md ${
+                            className={`flex gap-4 p-4 border rounded-lg transition-all hover:shadow-md cursor-pointer ${
                               item.Quantity > 0
-                                ? "bg-green-500/10"
-                                : "bg-red-500/10"
-                            } cursor-pointer`}
+                                ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
+                                : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
+                            }`}
                             onClick={() => setSelectedProduct(item)}
                           >
                             <div className="relative">
                               <img
                                 src={item.Image}
                                 className="aspect-square h-36 rounded-md object-cover"
-                                alt=""
+                                alt={item.Name}
                               />
                               <div
                                 className={`absolute top-2 right-2 px-2 py-1 rounded-md text-xs font-medium ${
@@ -500,9 +645,7 @@ export default function () {
                                     : "bg-red-500 text-white"
                                 }`}
                               >
-                                {item.Quantity > 0
-                                  ? "In Stock"
-                                  : "Out of Stock"}
+                                {item.Quantity > 0 ? "In Stock" : "Out of Stock"}
                               </div>
                             </div>
                             <div className="flex-1">
@@ -519,8 +662,8 @@ export default function () {
                                   <div
                                     className={`text-sm font-medium ${
                                       item.Quantity > 0
-                                        ? "text-green-500"
-                                        : "text-red-500"
+                                        ? "text-green-600 dark:text-green-400"
+                                        : "text-red-600 dark:text-red-400"
                                     }`}
                                   >
                                     {item.Quantity > 0
@@ -529,7 +672,7 @@ export default function () {
                                   </div>
                                 </div>
                               </div>
-                              <p className="mt-2 text-gray-600 dark:text-gray-300">
+                              <p className="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2">
                                 {item.Description}
                               </p>
                               <div className="mt-4 flex justify-between items-center">
@@ -551,6 +694,9 @@ export default function () {
                                       : "Out of Stock"}
                                   </span>
                                 </div>
+                                <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                                  {item.Year}
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -563,70 +709,158 @@ export default function () {
           </div>
         </div>
       )}
+
       {/* Modal for product details */}
       {selectedProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white dark:bg-neutral-900 rounded-lg shadow-lg p-8  w-[70vw] relative animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white dark:bg-neutral-900 rounded-xl shadow-2xl p-8 w-[70vw] max-w-4xl relative animate-fade-in max-h-[90vh] overflow-y-auto">
             <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 text-2xl"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               onClick={() => setSelectedProduct(null)}
               aria-label="Close"
             >
               &times;
             </button>
-            <div className="flex flex-col items-center mb-6">
-              <img
-                src={selectedProduct.Image}
-                alt={selectedProduct.Name}
-                className="w-40 h-40 object-cover rounded-md mb-2 border"
-              />
-              <h2 className="text-2xl font-bold mb-2 text-center">
-                {selectedProduct.Name}
-              </h2>
-            </div>
-            <div className="grid grid-cols-4 gap-4">
-              <div className="border rounded-lg p-4 flex flex-col items-center">
-                <span className="font-semibold mb-1">Reference</span>
-                <span>{selectedProduct.Referance}</span>
+            
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Product Image */}
+              <div className="lg:w-1/2">
+                <img
+                  src={selectedProduct.Image}
+                  alt={selectedProduct.Name}
+                  className="w-full h-80 object-cover rounded-lg border shadow-sm"
+                />
               </div>
-              <div className="border rounded-lg p-4 flex flex-col items-center">
-                <span className="font-semibold mb-1">Type</span>
-                <span>{selectedProduct.Type}</span>
-              </div>
-              <div className="border rounded-lg p-4 flex flex-col items-center">
-                <span className="font-semibold mb-1">Quantity</span>
-                <span>{selectedProduct.Quantity}</span>
-              </div>
-              <div className="border rounded-lg p-4 flex flex-col items-center">
-                <span className="font-semibold mb-1">Year</span>
-                <span>{selectedProduct.Year}</span>
-              </div>
-              <div className="border rounded-lg p-4 flex flex-col items-center col-span-4">
-                <span className="font-semibold mb-1">Description</span>
-                <span className="text-center">
-                  {selectedProduct.Description}
-                </span>
-              </div>
-              <div className="border rounded-lg p-4 flex flex-col items-center col-span-4">
-                <span className="font-semibold mb-1">Status</span>
-                <span
-                  className={
-                    selectedProduct.Quantity > 0
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }
-                >
-                  {selectedProduct.Quantity > 0 ? "In Stock" : "Out of Stock"}
-                </span>
+              
+              {/* Product Details */}
+              <div className="lg:w-1/2">
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold mb-2">
+                    {selectedProduct.Name}
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    {selectedProduct.Description}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <span className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                      Reference ID
+                    </span>
+                    <span className="text-lg font-bold">#{selectedProduct.Referance}</span>
+                  </div>
+                  
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <span className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                      Category
+                    </span>
+                    <span className="text-lg font-bold">{selectedProduct.Type}</span>
+                  </div>
+                  
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <span className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                      Year
+                    </span>
+                    <span className="text-lg font-bold">{selectedProduct.Year}</span>
+                  </div>
+                  
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <span className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                      Stock Quantity
+                    </span>
+                    <span className={`text-lg font-bold ${
+                      selectedProduct.Quantity > 0 
+                        ? 'text-green-600 dark:text-green-400' 
+                        : 'text-red-600 dark:text-red-400'
+                    }`}>
+                      {selectedProduct.Quantity} units
+                    </span>
+                  </div>
+                </div>
+
+                {/* Status Badge */}
+                <div className="mb-6">
+                  <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
+                    selectedProduct.Quantity > 50
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+                      : selectedProduct.Quantity > 0
+                      ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'
+                      : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
+                  }`}>
+                    <div className={`w-2 h-2 rounded-full mr-2 ${
+                      selectedProduct.Quantity > 50
+                        ? 'bg-green-500'
+                        : selectedProduct.Quantity > 0
+                        ? 'bg-yellow-500'
+                        : 'bg-red-500'
+                    }`}></div>
+                    {selectedProduct.Quantity > 50
+                      ? 'High Stock Level'
+                      : selectedProduct.Quantity > 0
+                      ? 'Low Stock Level'
+                      : 'Out of Stock'}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  <button 
+                    className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                    onClick={() => {
+                      // Add your edit functionality here
+                      console.log('Edit product:', selectedProduct);
+                    }}
+                  >
+                    Edit Product
+                  </button>
+                  <button 
+                    className="flex-1 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 px-6 py-3 rounded-lg font-medium transition-colors"
+                    onClick={() => {
+                      // Add your view history functionality here
+                      console.log('View history:', selectedProduct);
+                    }}
+                  >
+                    View History
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       )}
+      
+      {/* Loading Screen */}
+      <style jsx>{`
+        .animate-fade-in {
+          animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </div>
   ) : (
-    <div className="w-full h-screen flex items-center justify-center">
-      <Loader2 className="animate-spin"></Loader2>
+    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="text-center">
+        <Loader2 className="animate-spin mx-auto mb-4 text-blue-500" size={48} />
+        <p className="text-gray-600 dark:text-gray-400 text-lg">Loading inventory system...</p>
+      </div>
     </div>
   );
 }
